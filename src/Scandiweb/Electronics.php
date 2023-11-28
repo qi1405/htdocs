@@ -32,6 +32,24 @@ class Electronics extends Product
             }
         }
     }
+
+    public function saveToDatabase()
+    {
+        $host = 'localhost';
+        $username = 'root';
+        $password = '1405991473029Qi_';
+        $databaseName = 'product_management';
+        // Assume you have a Database class with a save method
+        $database = new Database($host, $username, $password, $databaseName);
+        $connection = $database->getConnection();
+
+        // Assuming a table named 'products'
+        $stmt = $connection->prepare('INSERT INTO products (sku, name, price, type, size) VALUES (?, ?, ?, ?, ?)');
+        $stmt->execute([$this->data['sku'], $this->data['name'], $this->data['price'], 'Electronics', $this->size]);
+
+        echo 'Saved Electronics to the database with size ' . $this->size . "\n";
+    }
+
 }
 
 ?>

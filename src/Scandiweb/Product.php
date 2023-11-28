@@ -50,13 +50,22 @@ class Product
     }
 
     // New setData method in the base class
+
+    protected $data = [];
+
     public function setData($data)
     {
-        foreach ($data as $key => $value) {
-            $setterMethod = 'set' . ucfirst($key);
-            if (method_exists($this, $setterMethod)) {
-                $this->$setterMethod($value);
-            }
-        }
+        $this->data = $data;
     }
+
+
+    // public function setData($data)
+    // {
+    //     foreach ($data as $key => $value) {
+    //         $setterMethod = 'set' . ucfirst($key);
+    //         if (method_exists($this, $setterMethod)) {
+    //             $this->$setterMethod($value);
+    //         }
+    //     }
+    // }
 }

@@ -2,6 +2,8 @@
 
 namespace Scandiweb;
 
+require_once '../src/Scandiweb/Product.php';
+
 class Furniture extends Product
 {
     protected $width;
@@ -57,6 +59,23 @@ class Furniture extends Product
                 // Add more cases for additional attributes if needed
             }
         }
+    }
+
+    public function saveToDatabase()
+    {
+        $host = 'localhost';
+        $username = 'root';
+        $password = '1405991473029Qi_';
+        $databaseName = 'product_management';
+        // Assume you have a Database class with a save method
+        $database = new Database($host, $username, $password, $databaseName);
+        $connection = $database->getConnection();
+
+        // Assuming a table named 'products'
+        $stmt = $connection->prepare('INSERT INTO products (sku, name, price, type, width, height, length) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$this->data['sku'], $this->data['name'], $this->data['price'], 'Furniture', $this->width, $this->height, $this->length]);
+
+        echo 'Saved Furniture to the database with dimensions ' . $this->width . 'x' . $this->height . 'x' . $this->length . "\n";
     }
 }
 
