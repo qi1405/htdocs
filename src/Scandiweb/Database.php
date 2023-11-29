@@ -12,7 +12,7 @@ class Database
             $this->connection = new \PDO("mysql:host=$host;dbname=$databaseName", $username, $password);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            // Handle connection errors if needed
+            // Handle connection errors:
             die("Connection failed: " . $e->getMessage());
         }
     }
@@ -22,13 +22,13 @@ class Database
         return $this->connection;
     }
 
-    // Your database-related methods go here...
+    // database-related methods go here...
 
     // Example method to execute a query
-    public function query($sql)
-    {
-        return $this->connection->query($sql);
-    }
+    // public function query($sql)
+    // {
+    //     return $this->connection->query($sql);
+    // }
 }
 
 ?>

@@ -14,9 +14,25 @@ class API
 
     public function handleRequest()
     {
+
+        // Allow requests from any origin
+        header("Access-Control-Allow-Origin: *");
+        // Allow specified methods (GET, POST, DELETE, etc.)
+        header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+        // Allow specified headers
+        header("Access-Control-Allow-Headers: Content-Type");
+
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
+            case 'OPTIONS':
+                // Allow specified methods (GET, POST, DELETE, OPTIONS)
+                header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+                // Allow specified headers
+                header("Access-Control-Allow-Headers: Content-Type");
+                // Respond with a 200 OK status for the preflight request
+                http_response_code(200);
+                break;
             case 'POST':
                 $this->handlePost();
                 break;
@@ -147,11 +163,11 @@ class API
         $password = '1405991473029Qi_';
         $databaseName = 'product_management';
 
-        // Assume you have a Database class with a getConnection method
+        // The Database class with a getConnection method
         $database = new Database($host, $username, $password, $databaseName);
         $connection = $database->getConnection();
 
-        // Assuming a table named 'products'
+        // table named 'products'
         $stmt = $connection->prepare('DELETE FROM products WHERE id = ?');
         $stmt->execute([$productId]);
 
@@ -165,33 +181,37 @@ class API
         }
     }
 
-    // Delete products by IDs from the database
     public function deleteProductsByIds($productIds)
-    {
-        $host = 'localhost';
-        $username = 'root';
-        $password = '1405991473029Qi_';
-        $databaseName = 'product_management';
+{
+    $host = 'localhost';
+    $username = 'root';
+    $password = '1405991473029Qi_';
+    $databaseName = 'product_management';
 
-        // Assume you have a Database class with a getConnection method
-        $database = new Database($host, $username, $password, $databaseName);
-        $connection = $database->getConnection();
+    // The Database class with a getConnection method
+    $database = new Database($host, $username, $password, $databaseName);
+    $connection = $database->getConnection();
 
-        // Assuming a table named 'products'
-        $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+    // Split the comma-separated string into an array
+    $productIdsArray = explode(',', $productIds);
 
-        $stmt = $connection->prepare("DELETE FROM products WHERE id IN ($placeholders)");
-        $stmt->execute($productIds);
+    // formulate the payload format
+    $placeholders = implode(',', array_fill(0, count($productIdsArray), '?'));
 
-        $rowCount = $stmt->rowCount();
+    $stmt = $connection->prepare("DELETE FROM products WHERE id IN ($placeholders)");
+    $stmt->execute($productIdsArray);
 
-        if ($rowCount > 0) {
-            echo json_encode(['success' => 'Products deleted']);
-        } else {
-            http_response_code(404); // Not Found
-            echo json_encode(['error' => 'Products not found']);
-        }
+    $rowCount = $stmt->rowCount();
+
+    if ($rowCount > 0) {
+        echo json_encode(['success' => 'Products deleted']);
+    } else {
+        http_response_code(404); // Not Found
+        echo json_encode(['error' => 'Products not found']);
     }
+}
+
+
 }
 
 ?>
