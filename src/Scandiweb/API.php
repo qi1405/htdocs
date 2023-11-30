@@ -107,16 +107,10 @@ class API
     // Get all products from the database
     public function readAllProducts()
     {
-        $host = 'localhost';
-        $username = 'root';
-        $password = '1405991473029Qi_';
-        $databaseName = 'product_management';
+        // Connecting to the Database instance injected in the constructor
+        $connection = $this->database->getConnection();
 
-        // Assume you have a Database class with a getConnection method
-        $database = new Database($host, $username, $password, $databaseName);
-        $connection = $database->getConnection();
-
-        // Assuming a table named 'products'
+        // table named 'products'
         $stmt = $connection->prepare('SELECT * FROM products');
         $stmt->execute();
 
@@ -130,14 +124,8 @@ class API
     // Get product by ID from the database
     public function getProductById($productId)
     {
-        $host = 'localhost';
-        $username = 'root';
-        $password = '1405991473029Qi_';
-        $databaseName = 'product_management';
-
-        // Assume you have a Database class with a getConnection method
-        $database = new Database($host, $username, $password, $databaseName);
-        $connection = $database->getConnection();
+        // Connecting to the Database instance injected in the constructor
+        $connection = $this->database->getConnection();
 
         // Assuming a table named 'products'
         $stmt = $connection->prepare('SELECT * FROM products WHERE id = ?');
@@ -158,14 +146,8 @@ class API
     // Delete a product by ID from the database
     public function deleteProductById($productId)
     {
-        $host = 'localhost';
-        $username = 'root';
-        $password = '1405991473029Qi_';
-        $databaseName = 'product_management';
-
-        // The Database class with a getConnection method
-        $database = new Database($host, $username, $password, $databaseName);
-        $connection = $database->getConnection();
+        // Connecting to the Database instance injected in the constructor
+        $connection = $this->database->getConnection();
 
         // table named 'products'
         $stmt = $connection->prepare('DELETE FROM products WHERE id = ?');
@@ -182,15 +164,9 @@ class API
     }
 
     public function deleteProductsByIds($productIds)
-{
-    $host = 'localhost';
-    $username = 'root';
-    $password = '1405991473029Qi_';
-    $databaseName = 'product_management';
-
-    // The Database class with a getConnection method
-    $database = new Database($host, $username, $password, $databaseName);
-    $connection = $database->getConnection();
+    {
+    // Connecting to the Database instance injected in the constructor
+    $connection = $this->database->getConnection();
 
     // Split the comma-separated string into an array
     $productIdsArray = explode(',', $productIds);
@@ -209,9 +185,7 @@ class API
         http_response_code(404); // Not Found
         echo json_encode(['error' => 'Products not found']);
     }
-}
-
-
+    }   
 }
 
 ?>

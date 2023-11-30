@@ -63,10 +63,10 @@ class Furniture extends Product
 
     public function saveToDatabase()
     {
-        $host = 'localhost';
-        $username = 'root';
+        $host = 'mysql6008.site4now.net';
+        $username = 'a9d850_bdf_1';
         $password = '1405991473029Qi_';
-        $databaseName = 'product_management';
+        $databaseName = 'db_a9d850_bdf_1';
         // Assume you have a Database class with a save method
         $database = new Database($host, $username, $password, $databaseName);
         $connection = $database->getConnection();

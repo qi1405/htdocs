@@ -1,14 +1,20 @@
 <?php
 
 namespace Scandiweb;
+require_once '../src/Scandiweb/Config.php';
 
 class Database
 {
     private $connection;
 
-    public function __construct($host, $username, $password, $databaseName)
+    public function __construct()
     {
         try {
+            $host = Config::$dbHost;
+            $username = Config::$dbUsername;
+            $password = Config::$dbPassword;
+            $databaseName = Config::$dbName;
+
             $this->connection = new \PDO("mysql:host=$host;dbname=$databaseName", $username, $password);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
@@ -21,14 +27,6 @@ class Database
     {
         return $this->connection;
     }
-
-    // database-related methods go here...
-
-    // Example method to execute a query
-    // public function query($sql)
-    // {
-    //     return $this->connection->query($sql);
-    // }
 }
 
 ?>
