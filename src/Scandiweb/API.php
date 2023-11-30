@@ -60,7 +60,7 @@ class API
                     echo json_encode(['error' => 'Missing product ID(s)']);
                 }
                 break;
-            // Add other methods (GET, DELETE, etc.) as needed
+            // For other methods (GET, DELETE, etc.) as needed...
             default:
                 http_response_code(405); // Method Not Allowed
                 echo json_encode(['error' => 'Method not allowed']);
@@ -163,6 +163,7 @@ class API
         }
     }
 
+    // Delete a products by IDs from the database
     public function deleteProductsByIds($productIds)
     {
     // Connecting to the Database instance injected in the constructor
