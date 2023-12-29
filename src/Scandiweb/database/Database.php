@@ -1,7 +1,7 @@
 <?php
 
 namespace Scandiweb;
-require_once '../src/Scandiweb/Config.php';
+require_once '../src/Scandiweb/database/Config.php';
 
 class Database
 {

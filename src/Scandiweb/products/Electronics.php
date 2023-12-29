@@ -2,7 +2,7 @@
 
 namespace Scandiweb;
 
-require_once '../src/Scandiweb/Product.php';
+require_once '../src/Scandiweb/products/Product.php';
 
 class Electronics extends Product
 {
@@ -35,12 +35,14 @@ class Electronics extends Product
 
     public function saveToDatabase()
     {
-        $host = 'mysql6008.site4now.net';
-        $username = 'a9d850_bdf_1';
-        $password = '1405991473029Qi_';
-        $databaseName = 'db_a9d850_bdf_1';
+        // $host = 'mysql6008.site4now.net';
+        // $username = 'a9d850_bdf_1';
+        // $password = '1405991473029Qi_';
+        // $databaseName = 'db_a9d850_bdf_1';
+        // $database = new Database($host, $username, $password, $databaseName);
+
         // a Database class with a save method
-        $database = new Database($host, $username, $password, $databaseName);
+        $database = new Database();
         $connection = $database->getConnection();
 
         // a table named 'products'

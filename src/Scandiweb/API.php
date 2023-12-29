@@ -69,7 +69,42 @@ class API
 
 
     // Handle POST request to create a product
-    private function handlePost()
+//     private function handlePost()
+// {
+//     // Assume JSON format for simplicity, adjust as needed
+//     $data = json_decode(file_get_contents('php://input'), true);
+
+//     // Check if the required fields are present
+//     if (isset($data['sku']) && isset($data['name']) && isset($data['price']) && isset($data['type'])) {
+//         $type = $data['type'];
+
+//         // Determine the class name based on the 'type'
+//         $className = 'Scandiweb\\' . ucfirst($type);
+
+//         // Check if the class exists
+//         if (class_exists($className)) {
+//             // Create an instance of the product class dynamically
+//             $product = new $className();
+
+//             // Set data for the product
+//             $product->setData($data);
+
+//             // Save the product to the database
+//             $product->saveToDatabase();
+
+//             // Return the created product
+//             echo json_encode(['success' => 'Product created', 'data' => $data]);
+//         } else {
+//             http_response_code(400); // Bad Request
+//             echo json_encode(['error' => 'Invalid product type']);
+//         }
+//     } else {
+//         http_response_code(400); // Bad Request
+//         echo json_encode(['error' => 'Missing required fields']);
+//     }
+// }
+
+private function handlePost()
 {
     // Assume JSON format for simplicity, adjust as needed
     $data = json_decode(file_get_contents('php://input'), true);
@@ -85,6 +120,13 @@ class API
         if (class_exists($className)) {
             // Create an instance of the product class dynamically
             $product = new $className();
+
+            // Check if SKU already exists in the database
+            if ($this->isSkuExists($data['sku'])) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'SKU already exists']);
+                return;
+            }
 
             // Set data for the product
             $product->setData($data);
@@ -103,6 +145,20 @@ class API
         echo json_encode(['error' => 'Missing required fields']);
     }
 }
+
+private function isSkuExists($sku)
+{
+    // Check if SKU already exists in the database
+    $db = new Database();
+    $connection = $db->getConnection();
+    $stmt = $connection->prepare("SELECT COUNT(*) FROM products WHERE sku = :sku");
+    $stmt->bindParam(':sku', $sku);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+
+    return $count > 0;
+}
+
 
     // Get all products from the database
     public function readAllProducts()
